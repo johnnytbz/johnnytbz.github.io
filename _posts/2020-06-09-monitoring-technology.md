@@ -1,4 +1,4 @@
----
+ï»¿---
 layout: post
 title: How to use monitoring technology in microservice projects
 subtitle: monitoring using exporter prometheus grafana
@@ -241,7 +241,7 @@ groups:
     rules:
     - alert: InstanceDown    ## alert name
       expr: up{job='node'} == 0  ## alert condition
-      for: 1m  ## when more than 1 min£¬prometheus will sent alert message to alertmanger
+      for: 1m  ## when more than 1 minï¼Œprometheus will sent alert message to alertmanger
       labels:
         severity: "warning"
       annotations:
