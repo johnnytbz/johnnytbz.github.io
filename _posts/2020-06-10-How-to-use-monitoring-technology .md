@@ -24,8 +24,11 @@ mainly the pull method, which is to obtain the index data from the specified Tar
 ## how to using monitor in microservice?    
 
 ### 1.expose prometheus data from spring boot actuator
+
 	using micrometer
+
 **Pom.xml adds related package dependencies**
+
 ~~~	
 <dependency>
     <groupId>io.micrometer</groupId>
@@ -42,6 +45,7 @@ mainly the pull method, which is to obtain the index data from the specified Tar
 ~~~
 
 **add config in application.yml**
+
 ~~~
 management.endpoints.enabled-by-default=false
 management.endpoint.info.enabled=true
@@ -57,20 +61,25 @@ management.endpoint.jolokia.enabled=true management.endpoints.web.exposure.inclu
 A single metric means, that a Counter represents a single value, e.g. invoke rest API each time. It¡¯s monotonically increasing, so it can only increase, usually one-by-one. It¡¯s a cumulative metric, so it always contains the overall value.
 
 **add counter for invoke API**
+
 ~~~
 MeterRegistry registry = new SimpleMeterRegistry();
 Metrics.addRegistry(registry);
 Counter counter = Metrics.counter("http.requests.rest.counter", "action", "changeSubscriptionPackage");
 counter.increment();
 ~~~
+
 **add timer for invoke API request time**
+
 ~~~
 MeterRegistry registry = new SimpleMeterRegistry();
 Timer.Sample timer = Timer.start(registry);
 // do something
 timer.stop(Metrics.timer("http.requests.rest.timer", "action", "changeSubscriptionPackage"));
 ~~~
+
 **You will get the following information when you request the RestAPI.**
+
 ~~~
 http_requests_rest_api_counter_total{action="changeSubscriptionPackage",} 2.0
 http_requests_rest_api_counter_total{action="getSubscriptionDetails",} 3.0
@@ -82,7 +91,9 @@ http_requests_rest_api_timer_seconds_sum{action="getSubscriptionDetails",} 1.189
 http_requests_rest_api_timer_seconds_count{action="changeSubscriptionState",} 1.0
 http_requests_rest_api_timer_seconds_sum{action="changeSubscriptionState",} 0.6497153	
 ~~~
+
 OR using AOP to count
+
 ~~~
 package com.ericsson.dcp.sica.application.util;
  
@@ -96,6 +107,7 @@ import java.lang.annotation.Target;
 public @interface PrometheusTimers {
 }
 ~~~
+
 ~~~
 package com.ericsson.dcp.sica.application.util;
  
@@ -143,6 +155,7 @@ public class PrometheusTimersAspect {
 
 ## how to practice in laptop locally using docker?
 create your network first, need to specify the network IP.
+
 ~~~
 docker network create --subnet=172.18.0.0/16 mynetwork
 ~~~
@@ -286,6 +299,6 @@ docker run -d --network mynetwork --ip 172.18.0.5 -p 9030:9030 -v C:\monitor\ale
 ~~~
 ### useful Material
 {: .box-note}
-**useful Material:** 
 exporter   https://prometheus.io/docs/instrumenting/exporters/
+
 grafan dashboard template https://grafana.com/grafana/dashboards?direction=asc&orderBy=name
