@@ -13,6 +13,8 @@ Basically, minishift is a tool that allows you to install and run OpenShift Orig
 
 ## how to setup minishift
 
+two ways to install, Hyper-V and virtualbox, The following only introduction virtualbox.
+
 ### download minishift
 Download Minishift from [https://github.com/minishift/minishift/releases](https://github.com/minishift/minishift/releases)
 
