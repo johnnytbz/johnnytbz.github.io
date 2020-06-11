@@ -9,15 +9,20 @@ comments: true
 ## what is prometheus?
     
 Prometheus is an open source system monitoring and alarming framework.
+
 It start from Google borgmon. One of CNCF (Cloud Native Computing Foundation) projects.The second project join CNCF.
-Development by go language.   
+
+Development by go language.  
+
 for single server have strong performance: support thousands of targets, a million time series per second.
 
 the official architecture diagram:
 ![Crepe](https://prometheus.io/assets/architecture.png)
 
 TSDB using time series database store data.
+
 Prometheus has two ways of collecting data, pull and pushgateway.
+
 mainly the pull method, which is to obtain the index data from the specified Target at regular intervals by using the HTTP interface.
 
 
@@ -298,7 +303,6 @@ receivers:
 docker run -d --network mynetwork --ip 172.18.0.5 -p 9030:9030 -v C:\monitor\alertmanager.yml:/etc/alertmanager/alertmanager.yml prom/alertmanager
 ~~~
 ### useful Material
-{: .box-note}
 exporter   https://prometheus.io/docs/instrumenting/exporters/
 
 grafan dashboard template https://grafana.com/grafana/dashboards?direction=asc&orderBy=name
