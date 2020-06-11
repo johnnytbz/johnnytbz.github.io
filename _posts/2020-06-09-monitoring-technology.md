@@ -186,6 +186,7 @@ open in web browser, you can view the collected system information.
 
 http://localhost:9100/metrics
 
+![Crepe](/img/monitor/01.png)
 
 **3.launch prometheus**
 
@@ -266,6 +267,7 @@ view in web browser
 
 http://localhost:9090/graph
 
+![Crepe](/img/monitor/02.png)
 
 
 **4.launch grafana**
@@ -281,6 +283,8 @@ view in web browser
 http://localhost:3000/login    (default login   admin/admin)
 
 setting grafana data sources from prometheus : http://172.18.0.3:9090
+
+![Crepe](/img/monitor/03.png)
 
 
 **5.launch alertmanager**
