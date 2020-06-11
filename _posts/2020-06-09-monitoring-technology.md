@@ -6,6 +6,8 @@ tags: [technology]
 comments: true
 ---
 
+[TOC]
+
 ## what is prometheus?
     
 Prometheus is an open source system monitoring and alarming framework.
