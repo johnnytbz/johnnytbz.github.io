@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to use monitoring technology in microservice projects
-subtitle: monitoring architecture :  exporter + prometheus + grafana
+subtitle: monitoring using exporter prometheus grafana
 tags: [technology]
 comments: true
 ---
