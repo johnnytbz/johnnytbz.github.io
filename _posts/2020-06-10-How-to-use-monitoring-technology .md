@@ -54,7 +54,7 @@ management.endpoint.jolokia.enabled=true management.endpoints.web.exposure.inclu
 
 **counter and timer in program**
 
-A single metric means, that a Counter represents a single value, e.g. invoke rest API each time. Itâ€™s monotonically increasing, so it can only increase, usually one-by-one. Itâ€™s a cumulative metric, so it always contains the overall value.
+A single metric means, that a Counter represents a single value, e.g. invoke rest API each time. It¡¯s monotonically increasing, so it can only increase, usually one-by-one. It¡¯s a cumulative metric, so it always contains the overall value.
 
 **add counter for invoke API**
 ~~~
@@ -218,7 +218,7 @@ groups:
     rules:
     - alert: InstanceDown    ## alert name
       expr: up{job='node'} == 0  ## alert condition
-      for: 1m  ## when more than 1 minï¼Œprometheus will sent alert message to alertmanger
+      for: 1m  ## when more than 1 min£¬prometheus will sent alert message to alertmanger
       labels:
         severity: "warning"
       annotations:
