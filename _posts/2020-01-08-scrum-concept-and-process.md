@@ -53,57 +53,45 @@ issue and pending backlog
 ### 4 meetings
 
 **sprint planning meeting**
-
+~~~
 goal - define what is done
-
 behavior - talk about production backlog
-
 participant - owner / developers
-
 tips - before sprint start
-
+~~~
 
 **daily scrum meeting**
-
+~~~
 goal - make sure the sprint will be done ontime
-
 behavior – answer three question 
   - what did I do yesterday?    
   - what will I do today? 
   - Do I face any barriers?
-
 duration - 15mins per day
-
 participant - owner / master / team
-
 tips - start at same time and same place every single day.
   - the daily scrum meeting is not used as a problem-solving or issue resolution meeting.  
-
+~~~
 
 **sprint review meeting**
-
+~~~
 goal - inspect and adapt production backlog
-
 behavior 
   - talk about production increament
   - talk about the emergent
   - help owner refine production backlog
-
 participant - owner/ master / development team / stakeholders
-
 tips - start after a sprint is done  
-
+~~~
 
 **sprint retrospective meeting**
-
+~~~
 goal - improve the work flow
-
 behavior  
   - what did we do well?    
   - what should we start doing?
   - what should we stop doing?  
   - what should we keep doing?
-
 participant - owner / master / development team
-
 tips - it is for whole team not the members of the criticism and self-criticism meeting
+~~~
