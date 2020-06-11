@@ -63,7 +63,7 @@ management.endpoint.jolokia.enabled=true management.endpoints.web.exposure.inclu
 
 **counter and timer in program**
 
-A single metric means, that a Counter represents a single value, e.g. invoke rest API each time. It¡¯s monotonically increasing, so it can only increase, usually one-by-one. It¡¯s a cumulative metric, so it always contains the overall value.
+A single metric means, that a Counter represents a single value, e.g. invoke rest API each time. It is monotonically increasing, so it can only increase, usually one-by-one. It is a cumulative metric, so it always contains the overall value.
 
 **add counter for invoke API**
 
@@ -159,6 +159,7 @@ public class PrometheusTimersAspect {
 
 
 ## how to practice in laptop locally using docker?
+
 create your network first, need to specify the network IP.
 
 ~~~
@@ -166,6 +167,7 @@ docker network create --subnet=172.18.0.0/16 mynetwork
 ~~~
 
 **1.download images**
+
 ~~~
 docker pull prom/prometheus
 docker pull grafana/grafana
@@ -174,6 +176,7 @@ docker pull prom/node-exporter
 ~~~
 
 **2.launch node-exporter**
+
 ~~~
 docker run -d --network mynetwork --ip 172.18.0.11 -p 9100:9100 prom/node-exporter
 ~~~
@@ -183,10 +186,10 @@ open in web browser, you can view the collected system information.
 http://localhost:9100/metrics
 
 
-
 **3.launch prometheus**
 
 create yml file : C:\monitor\prometheus.yml
+
 ~~~
 global:
   scrape_interval:     60s
@@ -229,7 +232,9 @@ scrape_configs:
         labels:
           instance: alertmanager
 ~~~          
+
 create yml file : C:\monitor\rules.yml
+
 ~~~
 groups:
   - name: node_alerts
@@ -251,6 +256,7 @@ groups:
       annotations:
         summary: Host {{ $labels.instance }} of {{ $labels.job }} is Down!
 ~~~
+
 ~~~
 docker run -d --network mynetwork --ip 172.18.0.3 -p 9090:9090 -v C:\monitor\prometheus.yml:/etc/prometheus/prometheus.yml -v C:\monitor\rules.yml:/etc/prometheus/rules.yml prom/prometheus
 ~~~
@@ -264,6 +270,7 @@ http://localhost:9090/graph
 **4.launch grafana**
 
 create folder : C:\monitor\grafana-storage
+
 ~~~
 docker run -d --network mynetwork --ip 172.18.0.4 -p 3000:3000 --name=grafana -v C:\monitor\grafana-storage:/var/lib/grafana grafana/grafana
 ~~~
@@ -275,10 +282,10 @@ http://localhost:3000/login    (default login   admin/admin)
 setting grafana data sources from prometheus : http://172.18.0.3:9090
 
 
-
 **5.launch alertmanager**
 
 create yml file : C:\monitor\alertmanager.yml
+
 ~~~
 global:
   smtp_smarthost: ''
@@ -302,7 +309,9 @@ receivers:
 ~~~
 docker run -d --network mynetwork --ip 172.18.0.5 -p 9030:9030 -v C:\monitor\alertmanager.yml:/etc/alertmanager/alertmanager.yml prom/alertmanager
 ~~~
-### useful Material
-exporter   https://prometheus.io/docs/instrumenting/exporters/
 
-grafan dashboard template https://grafana.com/grafana/dashboards?direction=asc&orderBy=name
+### useful Material
+
+[exporter](https://prometheus.io/docs/instrumenting/exporters)
+
+[grafan dashboard template](https://grafana.com/grafana/dashboards?direction=asc&orderBy=name)
