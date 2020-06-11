@@ -6,7 +6,6 @@ tags: [technology]
 comments: true
 ---
 
-[TOC]
 
 ## what is prometheus?
     
