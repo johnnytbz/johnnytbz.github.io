@@ -1,7 +1,7 @@
 ﻿---
 layout: post
 title: docker build mysql master slave
-subtitle: build local mysql test env
+subtitle: using docker build mysql master slave
 tags: [technology]
 comments: true
 ---

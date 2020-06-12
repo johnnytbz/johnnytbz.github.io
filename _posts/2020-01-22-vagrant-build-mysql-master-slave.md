@@ -1,7 +1,7 @@
 ﻿---
 layout: post
-title: vagrant for mysql master-slave
-subtitle: using vagrant script build virtualbox for mysql master-slave
+title: vagrant build mysql master slave
+subtitle: using vagrant script build virtualbox for mysql master slave
 tags: [technology]
 comments: true
 ---
