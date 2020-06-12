@@ -1,7 +1,7 @@
 ﻿---
 layout: post
 title: minishift setup for windows 10
-subtitle: How to using openshift in local
+subtitle: How to install openshift in local
 tags: [technology]
 comments: true
 ---
