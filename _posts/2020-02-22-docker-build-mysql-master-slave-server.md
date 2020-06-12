@@ -190,5 +190,3 @@ docker push youraccount/mysql-slave:mysql-5.7
 
 ![Crepe](/img/docker/image2020-1-22_15-20-53.png) 
 
-![Crepe](/img/docker/image2020-1-22_15-20-54.png)
-
