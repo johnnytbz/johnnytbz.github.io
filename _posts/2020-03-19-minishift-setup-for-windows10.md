@@ -14,20 +14,25 @@ Basically, minishift is a tool that allows you to install and run OpenShift Orig
 ## how to setup minishift
 
 ### download minishift
-Download Minishift from https://github.com/minishift/minishift/releases 
+Download Minishift from [https://github.com/minishift/minishift/releases](https://github.com/minishift/minishift/releases)
 
 Install Virtual Box
 
-Add Minishift folder to PATH, for example: C:\Users\[USER]\minishift-1.34.1 
+Add Minishift folder to PATH, 
+-for example: C:\Users\[USER]\minishift-1.34.1 
 
-Add OC foldet to PATH, for example: C:\Users\[USER]\.minishift\cache\oc\v3.11.0\windows 
+Add OC foldet to PATH, 
+-for example: C:\Users\[USER]\.minishift\cache\oc\v3.11.0\windows 
 
-Make sure Java JDK bin folder is on the path as well, for example: C:\Program Files\Java\jdk1.8.0_221\bin 
+Make sure Java JDK bin folder is on the path as well, 
+-for example: C:\Program Files\Java\jdk1.8.0_221\bin 
 
 Define following docker related environment variables to Windows:
+~~~
 DOCKER_CERT_PATH=C:\Users\[USER]\.minishift\certs 
 DOCKER_HOST=tcp://192.168.99.100:2376 
 DOCKER_TLS_VERIFY=1
+~~~
 
 ### configure and install minishift
 Configure Minishift in terminal. 
@@ -61,11 +66,11 @@ Minishift console
 
 from the host machine browser: https://192.168.99.100:8443/console/
 
-Make a shared hotfolder from host machine to Minishift by creating an empty folder to the host machine and saying: 
+Make a shared hotfolder from host machine to Minishift by creating an empty folder to the host machine: 
 ~~~
 minishift hostfolder add --type sshfs --source C:\path\to\the\host\folder --target /mnt/sda1/share share
 ~~~
-Mount the host folder by saying:
+Mount the host folder:
 ~~~
 minishift hostfolder mount share
 ~~~
