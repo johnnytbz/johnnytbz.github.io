@@ -19,13 +19,16 @@ Download Minishift from [https://github.com/minishift/minishift/releases](https:
 Install Virtual Box
 
 Add Minishift folder to PATH, 
--for example: C:\Users\[USER]\minishift-1.34.1 
+
+for example: C:\Users\[USER]\minishift-1.34.1 
 
 Add OC foldet to PATH, 
--for example: C:\Users\[USER]\.minishift\cache\oc\v3.11.0\windows 
+
+for example: C:\Users\[USER]\.minishift\cache\oc\v3.11.0\windows 
 
 Make sure Java JDK bin folder is on the path as well, 
--for example: C:\Program Files\Java\jdk1.8.0_221\bin 
+
+for example: C:\Program Files\Java\jdk1.8.0_221\bin 
 
 Define following docker related environment variables to Windows:
 ~~~
