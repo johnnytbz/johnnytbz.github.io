@@ -34,11 +34,11 @@ The port of the Master outbound map is 3339, and the port of the Slave outbound 
 docker ps
 ~~~
 
-![Crepe]/img/docker/image2020-1-22_15-1-14.png) 
+![Crepe](/img/docker/image2020-1-22_15-1-14.png) 
 
 we can using mysql client connect now.
 
-![Crepe]/img/docker/image2020-6-12_9-50-48.png)
+![Crepe](/img/docker/image2020-6-12_9-50-48.png)
 
 ## install Master mysql
 
@@ -135,7 +135,7 @@ query mysql in Master
 show master status;
 ~~~
 
-![Crepe]/img/docker/image2020-1-22_15-5-49.png) 
+![Crepe](/img/docker/image2020-1-22_15-5-49.png) 
 
 execute below command line from mysql inslave server.
 
@@ -149,18 +149,18 @@ we can search IP using command:
 docker inspect --format='{{.NetworkSettings.IPAddress}}' dcpsi-mysql-master
 ~~~
 
-![Crepe]/img/docker/image2020-1-22_15-8-10.png)
+![Crepe](/img/docker/image2020-1-22_15-8-10.png)
 
 execute as follow command on the mysql terminal in Slave;Use to view master-slave synchronization status.
 ~~~
 show Slave status \G;
 ~~~
 
-![Crepe]/img/docker/image2020-1-22_15-12-38.png)
+![Crepe](/img/docker/image2020-1-22_15-12-38.png)
 
 Start the master-slave replication process using start slave
 
-![Crepe]/img/docker/image2020-1-22_15-11-47.png)
+![Crepe](/img/docker/image2020-1-22_15-11-47.png)
 
 ## package installed images to cloud
 
@@ -188,7 +188,7 @@ docker push youraccount/mysql-master:mysql-5.7
 docker push youraccount/mysql-slave:mysql-5.7
 ~~~
 
-![Crepe]/img/docker/image2020-1-22_15-20-53.png) 
+![Crepe](/img/docker/image2020-1-22_15-20-53.png) 
 
-![Crepe]/img/docker/image2020-1-22_15-20-54.png)
+![Crepe](/img/docker/image2020-1-22_15-20-54.png)
 
