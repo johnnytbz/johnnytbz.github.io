@@ -37,8 +37,9 @@ Also add environment variable HOME in Windows 10 as follows:
 ~~~
 
 ### 2.Install Python
-{: .box-warning}
+
 **Warning:** Do NOT install Python 3.X. The Robot Framework does not have support for Python 3.X.
+{: .box-warning}
 
 Download and install python-2.7.9.amd64.msi from https://www.python.org/downloads/. 
 
