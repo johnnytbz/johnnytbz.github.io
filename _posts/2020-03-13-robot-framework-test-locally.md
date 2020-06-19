@@ -38,7 +38,7 @@ Also add environment variable HOME in Windows 10 as follows:
 
 ### 2.Install Python
 
-**Warning:** Do NOT install Python 3.X. The Robot Framework does not have support for Python 3.X.
+Do NOT install Python 3.X. The Robot Framework does not have support for Python 3.X.
 {: .box-warning}
 
 Download and install python-2.7.9.amd64.msi from https://www.python.org/downloads/. 
@@ -70,11 +70,12 @@ pip 1.5.6 from C:\Python27\lib\site-packages (python 2.7)
 ### 4.Install Robot Framework
 Install the Robot Framework using PIP which works (remember the proxy settings).
 
-{: .box-warning}
-**Warning:**For Windows users there is also windows installer available at http://code.google.com/p/robotframework/wiki/Installation#Windows_installer (e.g. robotframework-2.9.1.win-amd64.exe), although Python package manager is preferred to be used installing all Robot Framework related software.
 
+For Windows users there is also windows installer available at http://code.google.com/p/robotframework/wiki/Installation#Windows_installer (e.g. robotframework-2.9.1.win-amd64.exe), although Python package manager is preferred to be used installing all Robot Framework related software.
 {: .box-warning}
-**Warning:**For Windows users the Command Prompt should be launched as administrator for the following command(s) to run successfully.
+
+For Windows users the Command Prompt should be launched as administrator for the following command(s) to run successfully.
+{: .box-warning}
 ~~~
 pip install robotframework==3.0.2
 ~~~
@@ -91,8 +92,8 @@ Robot Framework 3.0.2 (Python 2.7.9 on win32)
 #### 5.1. Install the Selenium2Library and httplibrary for web testing
 Install the Robot Framework Selenium2Library using Python package manager (remember the proxy settings).
 
+For Windows users the Command Prompt should be launched as administrator for the following command(s) to run successfully.
 {: .box-warning}
-**Warning:**For Windows users the Command Prompt should be launched as administrator for the following command(s) to run successfully.
 ~~~
 pip install decorator==4.0.10
 pip install selenium==2.53.6
@@ -136,8 +137,8 @@ C:\Program Files (x86)\Google\Update2
 ### 5.3.3 Install chromedriver
 Download and install chromedriver_win32.zip (version 2.35) from http://www.seleniumhq.org/download/ (click on the "Google Chrome Driver" link) and extract it in C:\Python27\. 
 
+No 64-bit version of the Google Chrome Driver is available for Windows, but the 32-bit version has been verified to work with the 64-bit version of Google Chrome. Even though not verified, it's likely to believe that the 32-bit version of Google Chrome works too with the 32-bit Google Chrome Driver if ever needed.
 {: .box-warning}
-**Warning:**No 64-bit version of the Google Chrome Driver is available for Windows, but the 32-bit version has been verified to work with the 64-bit version of Google Chrome. Even though not verified, it's likely to believe that the 32-bit version of Google Chrome works too with the 32-bit Google Chrome Driver if ever needed.
 
 
 ### 6.using chinese repositries
