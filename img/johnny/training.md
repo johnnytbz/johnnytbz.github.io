@@ -1,12 +1,16 @@
 # trianing prepare
 
 ## micro service
+    https://www.jianshu.com/p/7293b148028f
+    documents/microservice_start.mhtml
+    program/spring-cloud-examples-master.zip
+
 
 ## REST API
 
 ## swagger
 ### reference
-    swagger.pdf
+    documents/swagger.pdf
     https://editor.swagger.io/?_ga=2.3628400.1714038499.1638196716-1457558838.1638196716
 
 
@@ -14,7 +18,8 @@
 
 ## CICD
 ### reference
-    CICD_Pipeline.pptx
+    documents/CICD_Pipeline.pptx
+
 ### what is git？
 
 #### git是一种分布式版本管理系统。
@@ -35,8 +40,16 @@
     git push
     
 
-## scrum 
-    scrum concept and improvement.ppt
+## scrum processing
+    documents/scrum_concept_and_improvement.ppt
+
+## reference
+    从0到1实战微服务架构
+    https://www.coder4.com/homs_online/index.html
+
 
 ## other tools
     wiki_exports.py
+    program/fargo-latest.7z
+    program/c#_class_libraries.rar
+
