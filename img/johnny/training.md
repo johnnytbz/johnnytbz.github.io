@@ -50,6 +50,6 @@
 
 ## other tools
     wiki_exports.py
-    program/fargo-latest.7z
-    program/c#_class_libraries.rar
+    program/fargo-latest.zip
+    program/c#_class_libraries.zip
 
