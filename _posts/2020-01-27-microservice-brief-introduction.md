@@ -106,3 +106,25 @@ I think meeting these two points can be considered typical microservices.
 
 ![Crepe](/img/microservice/p012.png)
 
+
+### summary
+
+Microservice has separate instances and databases for each business/module. 
+
+Split the original huge monomer application into separate services. 
+
+It is essentially decoupling, reducing complexity.
+
+Each service can be deployed independently and published more efficiently.
+
+More efficient development and easier teamwork.
+
+Errors or anomalies have a reduced range of influence, so as not to move the whole body in one shot.
+
+Easy to accept new technologies or frameworks.
+
+Ideal for rapid iteration and delivery of valuable products in agile ways.
+
+No silver bullets, microservice disadvantages
+
+Distributed systems add complexity to the development of operations and testers. Of course, this is also a challenge.
