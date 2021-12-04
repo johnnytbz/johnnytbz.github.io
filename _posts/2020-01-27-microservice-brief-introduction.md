@@ -73,6 +73,8 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 ![Crepe](/img/microservice/p006.png)
 
+![Crepe](/img/microservice/p013.png)
+
 ## microservices application
 
 ### Monolithic vs Microservices

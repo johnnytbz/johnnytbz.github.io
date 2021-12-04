@@ -73,11 +73,15 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 ![Crepe](/img/microservice/p006.png)
 
+![Crepe](/img/microservice/p013.png)
+
 ## microservices application
 
-Monolithic vs Microservices
+### Monolithic vs Microservices
 
 ![Crepe](/img/microservice/p008.png)
+
+![Crepe](/img/microservice/p010.png)
 
 ### What kind of service is microservice?
 
@@ -85,6 +89,8 @@ Monolithic vs Microservices
   - Service-oriented. Encapsulating and delivering services to the outside world is the core idea of inheriting SOA, and a microservice itself may be able to use other microservices.
 
 I think meeting these two points can be considered typical microservices.
+
+![Crepe](/img/microservice/p009.png)
 
 ### A typical architecture for microservices
 
@@ -94,4 +100,9 @@ I think meeting these two points can be considered typical microservices.
 
 #### Configuration Center
 
+![Crepe](/img/microservice/p011.png)
+
 #### A typical microservices architecture
+
+![Crepe](/img/microservice/p012.png)
+
