@@ -1,20 +1,20 @@
 ﻿---
 layout: post
-title: microservice brief introduction
+title: Microservice brief introduction
 subtitle: How to understand micro service
 tags: [technology]
 comments: true
 ---
 
 
-# What is microservices?
+# What is Microservice?
 
 
 ## Monolithic applications
 
 ### model 1
 
-In the "old" days when the concept of microservices was not proposed, 
+In the "old" days when the concept of Microservice was not proposed, 
 
 a software application tended to develop and package all the features of the application, 
 
@@ -75,9 +75,9 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 ![Crepe](/img/microservice/p013.png)
 
-## microservices application
+## Microservice application
 
-### Monolithic vs Microservices
+### Monolithic vs Microservice
 
 ![Crepe](/img/microservice/p008.png)
 
@@ -92,7 +92,7 @@ I think meeting these two points can be considered typical microservices.
 
 ![Crepe](/img/microservice/p009.png)
 
-### A typical architecture for microservices
+### microservice architecture
 
 #### Service registry
 
@@ -102,7 +102,7 @@ I think meeting these two points can be considered typical microservices.
 
 ![Crepe](/img/microservice/p011.png)
 
-#### A typical microservices architecture
+#### A typical microservice architecture
 
 ![Crepe](/img/microservice/p012.png)
 
