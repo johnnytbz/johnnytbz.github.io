@@ -46,10 +46,6 @@ The benefit of this architecture is that it is very simple to develop, test, and
 
 Suitable for early, rapid development and rapid product formation in small projects.
 
-![Crepe](/img/microservice/p004.png)
-
-![Crepe](/img/microservice/p005.png)
-
 **shortcoming**
 
 The architecture in the above 3 is still a monolithic application, 
@@ -64,7 +60,4 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
   - Scaling is difficult, and monomer applications can only scale the entire application when scaling performance, resulting in a waste of computing resources.
   - Development collaboration difficulties, a large application system, perhaps dozens or even hundreds of developers, everyone is maintaining a set of code, the complexity of the code has increased dramatically.
 
-![Crepe](/img/microservice/p006.png)
-
-### microservices application
-
+###
