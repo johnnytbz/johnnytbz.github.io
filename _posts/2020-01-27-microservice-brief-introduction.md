@@ -12,6 +12,8 @@ comments: true
 
 ## Monolithic applications
 
+![Crepe](/img/microservice/p004.png)
+
 ### model 1
 
 In the "old" days when the concept of Microservice was not proposed, 
@@ -41,8 +43,6 @@ the architecture of the monolith application becomes
 ![Crepe](/img/microservice/p003.png)
 
 ### summary
-
-![Crepe](/img/microservice/p004.png)
 
 The traditional Web application architecture is very simple, 
 
