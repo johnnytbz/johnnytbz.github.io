@@ -36,11 +36,9 @@ Pipeline
 
   ![Crepe](/img/CICD/001.png)
 
-  ![Crepe](/img/CICD/002.png)
+  ![Crepe](/img/CICD/002.png) 
 
-  ![Crepe](/img/CICD/003.png)
-
-  ![Crepe](/img/CICD/004.png)
+  ![Crepe](/img/CICD/004.jpg)
 
   ![Crepe](/img/CICD/005.png)
 
