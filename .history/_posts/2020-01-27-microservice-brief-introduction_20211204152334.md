@@ -7,12 +7,12 @@ comments: true
 ---
 
 
-# What is microservices?
+## What is microservices?
 
 
-## Monolithic applications
+### Monolithic applications
 
-### model 1
+#### model 1
 
 In the "old" days when the concept of microservices was not proposed, 
 
@@ -22,7 +22,7 @@ as was often the case with a B/S application architecture
 
 ![Crepe](/img/microservice/p001.png)
 
-### model 2
+#### model 2
 
 What happens when user traffic becomes so large that a server cannot support it? 
 
@@ -30,7 +30,7 @@ With servers and load balancing, the architecture becomes like this
 
 ![Crepe](/img/microservice/p002.png)
 
-### model 3
+#### model 3
 
 Later found that the static files independent, through CDN and other means to accelerate, 
 
@@ -40,7 +40,7 @@ the architecture of the monolith application becomes
 
 ![Crepe](/img/microservice/p003.png)
 
-### summary
+#### summary
 
 ![Crepe](/img/microservice/p004.png)
 
@@ -54,7 +54,7 @@ The benefit of this architecture is that it is very simple to develop, test, and
 
 Suitable for early, rapid development and rapid product formation in small projects.
 
-### shortcoming
+#### shortcoming
 
 ![Crepe](/img/microservice/p005.png)
 
@@ -73,34 +73,13 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 ![Crepe](/img/microservice/p006.png)
 
-## microservices application
+### microservices application
 
-### Monolithic vs Microservices
-
-![Crepe](/img/microservice/p008.png)
-
-![Crepe](/img/microservice/p010.png)
-
-### What kind of service is microservice?
+#### What kind of service is microservice?
 
   - Single responsibility. A microservice should be a single responsibility, which is the embodiment of "micro", a microservice to solve a business problem (note that it is a business problem rather than an interface).
   - Service-oriented. Encapsulating and delivering services to the outside world is the core idea of inheriting SOA, and a microservice itself may be able to use other microservices.
 
 I think meeting these two points can be considered typical microservices.
 
-![Crepe](/img/microservice/p009.png)
-
-### A typical architecture for microservices
-
-#### Service registry
-
-![Crepe](/img/microservice/p007.png)
-
-#### Configuration Center
-
-![Crepe](/img/microservice/p011.png)
-
-#### A typical microservices architecture
-
-![Crepe](/img/microservice/p012.png)
 

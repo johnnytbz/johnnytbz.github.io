@@ -75,12 +75,6 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 ## microservices application
 
-### Monolithic vs Microservices
-
-![Crepe](/img/microservice/p008.png)
-
-![Crepe](/img/microservice/p010.png)
-
 ### What kind of service is microservice?
 
   - Single responsibility. A microservice should be a single responsibility, which is the embodiment of "micro", a microservice to solve a business problem (note that it is a business problem rather than an interface).
@@ -88,19 +82,10 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 I think meeting these two points can be considered typical microservices.
 
-![Crepe](/img/microservice/p009.png)
-
 ### A typical architecture for microservices
 
 #### Service registry
 
-![Crepe](/img/microservice/p007.png)
-
 #### Configuration Center
 
-![Crepe](/img/microservice/p011.png)
-
 #### A typical microservices architecture
-
-![Crepe](/img/microservice/p012.png)
-

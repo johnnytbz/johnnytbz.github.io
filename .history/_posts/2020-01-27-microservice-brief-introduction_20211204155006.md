@@ -101,6 +101,3 @@ I think meeting these two points can be considered typical microservices.
 ![Crepe](/img/microservice/p011.png)
 
 #### A typical microservices architecture
-
-![Crepe](/img/microservice/p012.png)
-

@@ -88,7 +88,7 @@ so the fundamental disadvantages of monomer applications cannot be avoided:
 
 I think meeting these two points can be considered typical microservices.
 
-![Crepe](/img/microservice/p009.png)
+![Crepe](/img/microservice/p010.png)
 
 ### A typical architecture for microservices
 
@@ -98,9 +98,4 @@ I think meeting these two points can be considered typical microservices.
 
 #### Configuration Center
 
-![Crepe](/img/microservice/p011.png)
-
 #### A typical microservices architecture
-
-![Crepe](/img/microservice/p012.png)
-
