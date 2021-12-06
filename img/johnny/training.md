@@ -50,6 +50,5 @@
 
 ## other tools
     wiki_exports.py
-    program/fargo-latest.zip
-    program/c#_class_libraries.zip
+    program/fargo.pdf
 
