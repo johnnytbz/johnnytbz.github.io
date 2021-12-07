@@ -7,6 +7,7 @@
 
 
 ## REST API
+    https://mp.weixin.qq.com/s?__biz=MzkwNzI0MzQ2NQ==&mid=2247488888&idx=1&sn=aceb2b434e7dbacf97deed5c65b2aa8e&source=41#wechat_redirect
 
 ## swagger
 ### reference
@@ -51,4 +52,9 @@
 ## other tools
     wiki_exports.py
     program/fargo.pdf
+
+## java learning
+    https://github.com/dyc87112/SpringCloud-Learning
+    https://github.com/ityouknow/spring-cloud-examples
+    https://adityasridhar.com/posts/how-to-create-simple-rest-apis-with-springboot
 
