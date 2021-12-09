@@ -63,4 +63,8 @@
     vscode-open
     Excel Viewer
     local history
-    
+    zhihu
+    Thief-Book
+    NBA real-time score
+    read-vscode-e
+    epub reader
