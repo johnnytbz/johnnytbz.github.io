@@ -20,6 +20,7 @@
 ## CICD
 ### reference
     documents/CICD_Pipeline.pptx
+    git->gerrit->jenkins->
 
 ### what is git？
 
@@ -68,3 +69,4 @@
     NBA real-time score
     read-vscode-e
     epub reader
+
