@@ -20,7 +20,11 @@
 ## CICD
 ### reference
     documents/CICD_Pipeline.pptx
+    documents/CICD_DevOps.pdf
+    documents/CICD_Openshift.pdf
+
     git->gerrit->jenkins->
+
 
 ### what is git？
 
