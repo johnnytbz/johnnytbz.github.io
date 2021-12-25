@@ -75,5 +75,14 @@ Pipeline
 
     扫描方法, Jenkins中调用；
 
+## openshift demo
+
+  ![Crepe](/img/CICD/009.png)
+
+~~~
+  https://github.com/siamaksade
+  https://github.com/siamaksade/openshift-cicd-demo
+~~~
+
 
 
