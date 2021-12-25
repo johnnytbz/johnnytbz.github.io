@@ -42,13 +42,13 @@ comments: true
 
 ![Crepe](/img/microservice/p003.png)
 
-### summary
+### strength
 
-传统的Web application 架构非常简单,一个实例包含了所有业务模块,
+传统的Web application 架构非常简单,一个实例继承了一个系统的所有功能,
 
-比如在线商城的实例有order,billing,account,courier(快递),warehouse(仓储) etc.。
+通过负载均衡/设备实现多实例调用。
 
-这种架构的好处是开发,测试,部署非常简单。
+这种架构的好处是易开发,易调试,易部署。
 
 适用于小型项目早期,快速开发,快速形成产品。
 
@@ -102,10 +102,6 @@ comments: true
 
 ![Crepe](/img/microservice/p011.png)
 
-#### A typical microservice architecture
-
-![Crepe](/img/microservice/p012.png)
-
 
 ### summary
 
@@ -123,4 +119,37 @@ Microservices每一个业务/模块有独立的实例和数据库.将原来巨�
 
 没有银弹,微服务的缺点
 
-分布式系统对于开发运维和测试人员会增加复杂度。当然这也是一种挑战
+分布式系统对于开发运维和测试人员会增加复杂度。当然这也是一种挑战。
+
+### microservice framework
+
+#### Spring Cloud
+
+![Crepe](/img/microservice/p012.png)
+
+#### openshift
+
+![Crepe](/img/microservice/p014.png)
+
+日志 
+EFK（ElasticSearch - Fluentd - Kibana）
+~~~
+Fluentd 作为日志代理，在每个节点上负责日志收集。其官网为 https://www.fluentd.org/
+ElasticSearch 负责日志集中存储。其官网为 https://www.elastic.co/products/elasticsearch
+Kibana 负责日志展示和查询。用户可以通过浏览器访问。其官网为 https://www.elastic.co/products/kibana
+~~~
+
+监控
+~~~
+Prometheus
+Grafana
+~~~
+
+Api Gateway Kong
+~~~
+Rate-Limiting
+Authentication
+Caching
+Logging
+Transformations
+~~~

@@ -17,18 +17,14 @@ comments: true
 
   如果一个架构符合REST原则，就称它为RESTful架构。
 
-## URL and URI
-
-  URL：Uniform Resource Location统一资源定位符
-  URI：Uniform Resource Identifier，统一资源标识符
-
-  就是网络上的一个实体，或者说是网络上的一个具体信息。
-
-  它可以是一段文本、一张图片、一首歌曲、一种服务，总之就是一个具体的实在。
-
-  你可以用一个URI（统一资源标识符）指向它，每种资源对应一个特定的URI。
-
-  要获取这个资源，访问它的URI就可以，因此URI就成了每一个资源的地址或独一无二的识别符。
+  什么是representational?
+    XML, JSON, TEXT来呈现表示response的数据
+  什么是state transfer?
+    response data from the server, sent the state / data to the client
+  Resource identifier
+    URL / endpoint
+  Representation Metadata
+    header / content-type
 
 ## HTTP动词
 
