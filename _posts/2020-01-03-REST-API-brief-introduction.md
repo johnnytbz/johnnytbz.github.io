@@ -18,11 +18,17 @@ comments: true
   如果一个架构符合REST原则，就称它为RESTful架构。
 
   什么是representational?
+  ~~~	
     XML, JSON, TEXT来呈现表示response的数据
+  ~~~	
   什么是state transfer?
+  ~~~	
     response data from the server, sent the state / data to the client
+  ~~~	
   Resource identifier
+  ~~~	
     URL / endpoint
+  ~~~	
   Representation Metadata
     header / content-type
 
