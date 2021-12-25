@@ -127,6 +127,14 @@ Microservices每一个业务/模块有独立的实例和数据库.将原来巨�
 
 ![Crepe](/img/microservice/p012.png)
 
+#### Dubbo
+
+![Crepe](/img/microservice/p016.png)
+
+![Crepe](/img/microservice/p017.png)
+
+![Crepe](/img/microservice/p015.png)
+
 #### openshift
 
 ![Crepe](/img/microservice/p014.png)
@@ -139,13 +147,20 @@ ElasticSearch 负责日志集中存储。其官网为 https://www.elastic.co/pro
 Kibana 负责日志展示和查询。用户可以通过浏览器访问。其官网为 https://www.elastic.co/products/kibana
 ~~~
 
+![Crepe](/img/microservice/p019.png)
+
+![Crepe](/img/microservice/p020.png)
+
+![Crepe](/img/microservice/p021.png)
+
 监控
 ~~~
 Prometheus
 Grafana
 ~~~
+reference from [https://johnnytbz.github.io/2020-06-09-monitoring-technology](https://johnnytbz.github.io/2020-06-09-monitoring-technology)
 
-Api Gateway Kong
+Kong Api Gateway
 ~~~
 Rate-Limiting
 Authentication
@@ -153,3 +168,30 @@ Caching
 Logging
 Transformations
 ~~~
+
+![Crepe](/img/microservice/p022.png)
+
+![Crepe](/img/microservice/p023.png)
+
+![Crepe](/img/microservice/p024.png)
+
+Kubernetes
+
+![Crepe](/img/microservice/p018.png)
+
+Testing
+~~~
+BDD - JBehave / Cucumber   
+AUto testing - robot framework 
+~~~
+~~~
+BDD example:
+Given the ATM has $250
+And my balance is $200
+When I withdraw $150
+Then the ATM has $100
+And my balance is $50
+~~~
+reference from [https://johnnytbz.github.io/2020-03-13-robot-framework-test-locally](https://johnnytbz.github.io/2020-03-13-robot-framework-test-locally)
+
+JWT -- JSON WEB TOKEN
