@@ -1,7 +1,7 @@
 ﻿---
 layout: post
 title: Kong API Gateway
-subtitle: What is Kong
+subtitle: Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer
 tags: [technology]
 comments: true
 ---
