@@ -7,12 +7,11 @@ comments: true
 ---
 # What is Kong?
 
-~~~
-Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer (also known as an API Gateway or API Middleware). 
+  - Kong is a cloud-native, fast, scalable, and distributed Microservice Abstraction Layer (also known as an API Gateway or API Middleware). 
 
-Kong was made available as an open-source project in 2015.
+  - Kong was made available as an open-source project in 2015.
 
-~~~
+
 ![Crepe](/img/kong/p001.png)
 
 https://konghq.com/kong/
@@ -51,17 +50,7 @@ https://konghq.com/kong/
 
 ### Advantages of Kong
 
-**Sub-millisecond performance**
-
-**Universal deployment**
-
-**Unlimited extensibility**
-
-**Expand capabilities with plugins**
-
-**Be an APIOps superhero**
-
-**Support for multiple operating environments**
+  ![Crepe](/img/kong/p009.png)
 
 ### Kong plugins
 
