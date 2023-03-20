@@ -8,6 +8,7 @@ comments: true
 # Introduction
 
 - The Open Web Application Security Project (OWASP) is a non-profit, collaborative online community behind the OWASP Top 10. They produce articles, methodologies, documentation, tools, and technologies to improve application security.
+
 - Since 2003, OWASP Top 10 project has been the authoritative list of information prevalent to web application vulnerabilities and the ways to mitigate them. in 2019, OWASP started an effort to create a version of their Top 10 dedicated specifically to API security. The first OWASP API Security Top 10 list was released on 31 December 2019.
 
 # API Security Risk Rating
@@ -98,7 +99,7 @@ the API is retrieving stored credit card information, specifically primary accou
 **Scenario #2**
 
 
-&emsp;An IOT-based surveillance system allows administrators to create users with different permissions. An admin
+&emsp;An surveillance system allows administrators to create users with different permissions. An admin
 created a user account for a new security guard that should only have access to specific buildings on the site.
 Once the security guard uses his mobile app, an API call is triggered to: /api/sites/111/cameras in
 order to receive data about the available cameras and show them on the dashboard. The response contains a list
@@ -123,12 +124,10 @@ with details about cameras in the following format: {"id":"xxx","live_access_tok
 
 **Scenario #1**
 
-
 &emsp;An attacker uploads a large image by issuing a POST request to /api/v1/images. When the upload is
 complete, the API creates multiple thumbnails with different sizes. Due to the size of the uploaded image, available memory is exhausted during the creation of thumbnails and the API becomes unresponsive.
 
 **Scenario #2**
-
 
 &emsp;We have an application that contains the users' list on a UI with a limit of 200 users per page. The users' list is retrieved from the server using the following query: /api/users?page=1&size=100. An attacker changes the size parameter to 200 000, causing performance issues on the database. Meanwhile, the API becomes unresponsive and is unable to handle further requests from this or any other clients (aka DoS).
 
