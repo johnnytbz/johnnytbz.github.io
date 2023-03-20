@@ -14,7 +14,7 @@ comments: true
 
 ![Crepe](/img/kong/p001.png)
 
-https://konghq.com/kong/
+[https://konghq.com/kong/](https://konghq.com/kong/)
 
 # Why Kong?
 
@@ -56,14 +56,14 @@ https://konghq.com/kong/
 
 ![Crepe](/img/kong/p004.png)
 
-https://docs.konghq.com/hub/
+[https://docs.konghq.com/hub/](https://docs.konghq.com/hub/)
 
 
 # How Kong works?
 
 ### Kong installation
 
-  - Download and get installation guideline: https://konghq.com/install/
+  - Download and get installation guideline: [https://konghq.com/install/](https://konghq.com/install/)
 
   ![Crepe](/img/kong/p005.png)
 
