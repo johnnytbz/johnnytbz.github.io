@@ -3,7 +3,7 @@ layout: post
 title: OWASP API Security top 10 Introduction
 subtitle: The Open Web Application Security Project (OWASP) 
 tags: [technology]
-comments: true
+comments: false
 ---
 # Introduction
 
