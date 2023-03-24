@@ -11,27 +11,34 @@ comments: true
 
    Continuous integration/continuous delivery
 
-   CI 即持续集成
+   CI continuous integration
 
 ~~~
-持续集成（continuous integration）是在源代码变更后自动检测、拉取、构建和（在大多数情况下）进行单元测试的过程。
-目标是快速确保开发人员新提交的变更是好的，并且适合在代码库中进一步使用。
+Continuous integration is the process of automatically detecting, pulling, 
+building and (in most cases) unit testing after source code changes.
+
+The goal is to quickly ensure that a developer's newly committed changes are good 
+and suitable for further use in the codebase.
 ~~~
 
-  CD 可分别指代两个概念： 持续交付 和 持续部署
+  CD can refer to two concepts respectively: continuous delivery and continuous deployment.
 
 ~~~
-持续交付（continuous delivery）通常是指整个流程链（管道），它自动监测源代码变更并通过构建、测试、打包和相关操作运行它们以生成可部署的版本，基本上没有任何人为干预。
+Continuous delivery generally refers to the entire process chain (pipeline) that 
+automatically monitors source code changes and runs them through building, testing, 
+packaging and related operations to produce a deployable version, basically without any human intervention.
 
-持续交付在软件开发过程中的目标是自动化、效率、可靠性、可重复性和质量保障（通过持续测试）。
+The goals of continuous delivery in the software development process are automation, 
+efficiency, reliability, repeatability, and quality assurance (through continuous testing).
 ~~~
+
 ~~~
-持续部署（continuous deployment）是指能够自动提供持续交付管道中发布版本给最终用户使用的想法。根据用户的安装方式，可能是在云环境中自动部署、app 升级（如手机上的应用程序）、更新网站或只更新可用版本列表。
+Continuous deployment refers to the idea of being able to automatically deliver releases from a continuous delivery pipeline to end users. Depending on how the user installed it, it could be an automatic deployment in a cloud environment, an app upgrade (like an app on a phone), an update to a website, or just an update to the list of available versions.
 ~~~
 
 Pipeline
 ~~~
-将源代码转换为可发布产品的多个不同的 任务(task)和 作业(job)通常串联成一个软件“管道”，一个自动流程成功完成后会启动管道中的下一个流程。这些管道有许多不同的叫法，例如持续交付管道、部署管道和软件开发管道。
+  The many different tasks and jobs that transform source code into a releasable product are often chained together into a software pipeline with the successful completion of one automated process starting the next process in the pipeline. These pipelines go by many different names, such as continuous delivery pipelines, deployment pipelines, and software development pipelines.
 ~~~
 
   ![Crepe](/img/CICD/001.png)
@@ -44,18 +51,18 @@ Pipeline
 
 ## code style
 
-  组织自定义代码风格：代码缩进，方法名定义，函数不能超过5个等等
+  Organize custom code style: code indentation, method name definition, no more than 5 functions, etc.
 
-  等于是自动review了代码
+  It is equivalent to automatically reviewing the code
   
 
 ## SonarQube
 
-  SonarQube 是一个开源的代码分析平台, 用来持续分析和评测项目源代码的质量。 
+  SonarQube is an open source code analysis platform used to continuously analyze and evaluate the quality of project source code.
   
-  通过SonarQube我们可以检测出项目中重复代码， 潜在bug， 代码规范，安全性漏洞等问题
+  Through SonarQube, we can detect duplicate code, potential bugs, code specifications, security vulnerabilities and other issues in the project
 
-  SonarQube扫描方法, Jenkins中调用
+  SonarQube scanning method, called in Jenkins
 
   SonarQube UI
 
@@ -69,11 +76,11 @@ Pipeline
   
     Open Web Application Security Project
 
-    OWASP是一个开源的、非盈利的全球性安全组织，致力于应用软件的安全研究。
+    OWASP is an open source, non-profit global security organization dedicated to application software security research.
     
-    是使应用软件更加安全，使企业和组织能够对应用安全风险做出更清晰的决策
+    It is to make application software more secure and enable enterprises and organizations to make clearer decisions about application security risks
 
-    扫描方法, Jenkins中调用；
+    Scan method, called in Jenkins;
 
 ## openshift demo
 
