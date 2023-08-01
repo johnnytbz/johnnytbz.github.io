@@ -1,0 +1,230 @@
+---
+openapi: 3.0.0
+
+info:
+  title: "Subscription API 0.0.1"
+  version: "0.0.1"
+  description: |-
+    <b>Subscription management interface.</b>
+
+    This API offers a web application interface to perform operations
+    related to the inventory and management of subscriptions.
+
+    <b>Currently supported operations:</b>
+
+    * Device reconnect api
+
+    <b>Disclaimer:</b>
+
+    * The contents of this document are subject to revision without notice
+    due to continued progress in methodology,design and manufacturing.
+    Ericsson shall have no liability for any error
+    or damage of any kind resulting from the use of this document.
+    The following are also required for authentication:
+
+  contact:
+    name: "Subscription Inventory Service Excellence Team"
+    url: "https://www.ericsson.com"
+    email: "PDLEAMSUBS@pdl.internal.ericsson.com"
+  x-api-id: "96f61af0-7bba-45df-8f12-005042cf1e47"
+  x-audience: "external-public"
+
+servers:
+  - url: https://m2m.dcp.ericsson.net/iot/api/sica/subscriptions
+    description: Central API server
+
+paths:
+  "/device-reconnect":
+    post:
+      summary: Create a device reconnect request.
+      description: |-
+        This API request creates a subscription device reconnect request.
+        The change can be requested for one subscription.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceReconnectRequest'
+            examples:
+              device-reconnect-example:
+                value:
+                  reattach_required: false
+                  subscription:
+                    identifier_type: IMSI
+                    identifier: "100000123456001"
+                  on_behalf_of:
+                    organization_id: 1.23.4
+                    company_id: 100002304
+      responses:
+        "201":
+          description: >
+            OK.  Status of response body should be checked if request is still
+            in progress.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceReconnectResponse"
+        default:
+          description: >
+            error occurred - see status code and problem object for more
+            information.
+          content:
+            "application/problem+json":
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - Oauth2_auth:
+            - subscription-service.write
+components:
+  schemas:
+    Subscription:
+      title: Subscription
+      required:
+        - identifier
+        - identifier_type
+      properties:
+        identifier_type:
+          description: |-
+            The type of the values for the items.
+             it is case insensitive, Value can be: IMSI, MSISDN, ICC
+          type: string
+          x-extensible-enum:
+            - IMSI
+            - MSISDN
+            - ICC
+        identifier:
+          description: The identifier of the subscription.
+            The type of the identifier
+            is given by the property "identifier_type".
+          type: string
+    DeviceReconnectResponse:
+      title: DeviceReconnectResponse
+      description: |-
+        Response type for successfully created subscription request.
+      required:
+        - subscription_request_id
+      type: object
+      properties:
+        subscription_request_id:
+          description: |-
+            The request id returned for the subscription change request.
+          type: string
+      example:
+        subscription_request_id: REQ201234567890
+    CompanyId:
+      description: Company_id type
+      type: object
+      properties:
+        company_id:
+          deprecated: true
+          description: |-
+            Id of the company.
+            Format: "12345678".
+            Deprecated.
+          type: string
+          pattern: \d{8}
+          nullable: false
+      example:
+        company_id: "78000037"
+    OrganizationId:
+      description: Organization_id type
+      type: object
+      properties:
+        organization_id:
+          description: |-
+            Id of the organization.
+            Format: "1.23.4"
+          type: string
+          minLength: 1
+          nullable: false
+          pattern: ^\d+(\.\d+)*$
+      example:
+        organization_id: 3.78.37
+    OrganizationType:
+      oneOf:
+        - $ref: '#/components/schemas/CompanyId'
+        - $ref: '#/components/schemas/OrganizationId'
+      title: OrganizationType
+      description: |-
+        Optional, Used to identify the organization.
+        But if exist, Either one of the properties
+        'organization_id' or 'company_id' must be given.
+        If both exist at the same time then using organization_id as default.
+      type: object
+      example: |-
+        {
+            "organization_id": "3.78.37",
+        }
+    DeviceReconnectRequest:
+      title: DeviceReconnectRequest
+      description: The model for a subscription device reconnect request.
+      required:
+        - subscription
+      type: object
+      properties:
+        reattach_required:
+          type: "boolean"
+          format: boolean
+          example: false
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+        on_behalf_of:
+          $ref: '#/components/schemas/OrganizationType'
+      example:
+        reattach_required: false
+        subscription:
+          identifier_type: IMSI
+          identifier: "100000123456001"
+        on_behalf_of:
+          organization_id: 1.23.4
+    Problem:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          description: |
+            An absolute URI that identifies the problem type. When
+            dereferenced,it SHOULD provide human-readable documentation
+            for the problem type (e.g., using HTML).
+        title:
+          type: string
+          description: |
+            A short summary of the problem type in english and readable for
+            engineers.
+          example: 'Bad request'
+        status:
+          type: integer
+          format: int32
+          description: |
+            The HTTP status code generated by the origin server for this
+            occurrence of the problem.
+          minimum: 100
+          maximum: 600
+          exclusiveMaximum: true
+          example: 400
+        detail:
+          type: string
+          description: |
+            A human readable explanation specific to this occurrence of the
+            problem.
+          example: 'Uknown identifier_type'
+        instance:
+          type: string
+          format: uri
+          description: |
+            An absolute URI that identifies the specific occurrence of the
+            problem. It may or may not yield further information if
+            dereferenced.
+
+  securitySchemes:
+    Oauth2_auth:
+      flows:
+        password:
+          tokenUrl: https://identity.iot.ericsson.com/oauth2/token
+          scopes:
+            subscription-service.read: |
+              Access right needed to read from the Subscription service.
+            subscription-service.write: |
+              Access right needed to write to the Subscription service.
+      type: oauth2

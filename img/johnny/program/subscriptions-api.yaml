@@ -1,0 +1,473 @@
+---
+openapi: 3.0.0
+
+info:
+  title: "Subscription change history"
+  version: "0.0.1"
+  description: "Subscription change events query"
+  contact:
+    name: "Subscription Management SET"
+    url: "https://www.ericsson.com"
+    email: "tbd@ericsson.com"
+  x-api-id: "63664bd7-560a-463c-baf6-a91c215a3071"
+  x-audience: "external-partner"
+
+servers:
+  - url: https://m2m.dcp.ericsson.net/iot/api/sica/subscriptions
+    description: Central API server
+
+paths:
+  "/device-reconnection":
+    post:
+      summary: Create a device reconnection request.
+      description: |-
+        This API request creates a subscription device reconnection request.
+        The change can be requested for one subscription.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceReconnectRequest'
+            examples:
+              device-reconnection-example:
+                value:
+                  reattch: false
+                  subscription:
+                    identifier_type: IMSI
+                    identifiers:
+                      - "100000123456001"
+                      - "100000123456002"
+                  on_behalf_of:
+                    organization_id: 1.23.4
+                    company_id: 100002304
+      responses:
+        "201":
+          description: >
+            OK.  Status of response body should be checked if request is still
+            in progress.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceReconnectResponse"
+        default:
+          description: >
+            error occurred - see status code and problem object for more
+            information.
+          content:
+            "application/problem+json":
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - Oauth2_auth:
+            - subscription-service.write
+  "/changes/requests":
+    post:
+      summary: "Request subscription change history"
+      description: >
+        Create a request to get subscription change history for a batch of
+        subscriptions
+      operationId: "create-subscriptions-history-request"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeHistoryRequest'
+      responses:
+        "201":
+          description: "Created, Location header will contain the created url"
+          headers:
+            Location:
+              description: "URL of the created history request"
+              schema:
+                type: string
+                example: "/subscriptions/changes/request/ABC123321"
+        default:
+          description: >
+            error occurred - see status code and problem object for more
+            information.
+          content:
+            "application/problem+json":
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - Oauth2_auth:
+            - "subscription-history.read"
+
+  "/changes/requests/{request-id}":
+    get:
+      summary: "Get results for subscription change history request"
+      description: "Get results for subscription change history request"
+      operationId: "get-subscriptions-history"
+      parameters:
+        - name: request-id
+          in: path
+          schema:
+            type: string
+            example: "ABC123321"
+          required: true
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "RW5jb2RlZCBrZXkg"
+      responses:
+        "200":
+          description: >
+            OK.  Status of response body should be checked if request is still
+            in progress.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChangeHistoryResponse"
+        default:
+          description: >
+            error occurred - see status code and problem object for more
+            information.
+          content:
+            "application/problem+json":
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - Oauth2_auth:
+            - "subscription-history.read"
+
+components:
+
+  securitySchemes:
+    Oauth2_auth:
+      flows:
+        password:
+          tokenUrl: https://identity.iot.ericsson.com/oauth2/token
+          scopes:
+            subscription-history.read: access subscription history
+      type: oauth2
+
+  schemas:
+    SubscriptionList:
+      title: SubscriptionList
+      description: |-
+        Used to identify a list of subscriptions.
+        The identifier can be of the type:
+        - IMSI
+        - MSISDN
+        - ICC
+      required:
+        - identifiers
+        - identifier_type
+      type: object
+      properties:
+        identifier_type:
+          description: |-
+            The type of the values for the items.
+             it is case insensitive, Value can be: IMSI, MSISDN, ICC
+          type: string
+          x-extensible-enum:
+            - IMSI
+            - MSISDN
+            - ICC
+        identifiers:
+          description: The identifier of the subscription. The type of the identifier
+            is given by the property "identifier_type".
+          type: array
+          items:
+            type: string
+      example:
+        identifier_type: IMSI
+        identifiers:
+          - "100000123456001"
+          - "100000123456002"
+          - "100000123456003"
+    DeviceReconnectResponse:
+      title: DeviceReconnectResponse
+      description: |-
+        Response type for successfully created subscription request.
+      required:
+        - subscription_request_id
+      type: object
+      properties:
+        subscription_request_id:
+          description: The request id returned for the subscription change request.
+          type: string
+      example:
+        subscription_request_id: REQ201234567890
+    CompanyId:
+      description: Company_id type
+      type: object
+      properties:
+        company_id:
+          deprecated: true
+          description: |-
+            Id of the company.
+            Format: "12345678".
+            Deprecated.
+          type: string
+          pattern: \d{8}
+          nullable: false
+      example:
+        company_id: "78000037"
+    OrganizationId:
+      description: Organization_id type
+      type: object
+      properties:
+        organization_id:
+          description: |-
+            Id of the organization.
+            Format: "1.23.4"
+          type: string
+          minLength: 1
+          nullable: false
+          pattern: ^\d+(\.\d+)*$
+      example:
+        organization_id: 3.78.37
+    OrganizationType:
+      oneOf:
+        - $ref: '#/components/schemas/CompanyId'
+        - $ref: '#/components/schemas/OrganizationId'
+      title: OrganizationType
+      description: |-
+        Optional, Used to identify the organization.
+        But if exist, Either one of the properties 'organization_id' or 'company_id' must be given.
+        If both exist at the same time then using organization_id as default.
+      type: object
+      example: |-
+        {
+            "organization_id": "3.78.37",
+        }
+    DeviceReconnectRequest:
+      title: DeviceReconnectRequest
+      description: The model for a subscription device reconnection request.
+      required:
+        - subscription
+      type: object
+      properties:
+        reattach:
+          type: "boolean"
+          format: boolean
+          example: false
+        subscription:
+          $ref: '#/components/schemas/SubscriptionList'
+        on_behalf_of:
+          $ref: '#/components/schemas/OrganizationType'
+      example:
+        reattch: false
+        subscription:
+          identifier_type: IMSI
+          identifiers:
+            - "100000123456001"
+            - "100000123456002"
+        on_behalf_of:
+          organization_id: 1.23.4
+
+    IdType:
+      type: "string"
+      description: "Type of identifier used for identifier or identifier-range"
+      x-extensible-enum:
+        - imsi
+      example: imsi
+
+    IdentifierRangeType:
+      type: "object"
+      properties:
+        start:
+          description: "Start of range, inclusive"
+          type: "string"
+          example: "123456789000000"
+        end:
+          description: "End of range, inclusive"
+          type: "string"
+          example: "123456789099999"
+
+    SubscriptionOperation:
+      type: "string"
+      description: Type of change
+      example: "CHANGE_SUBSCRIPTIONSTATE"
+      x-extensible-enum:
+        - CESS
+        - CHANGE_ALTROAMINGPROVIDER
+        - CHANGE_SP_EUICC
+        - CHANGE_SUBSCRIPTIONIP
+        - CHANGE_SUBSCRIPTIONLABEL
+        - CHANGE_SUBSCRIPTION_NOTE
+        - CHANGE_SUBSCRIPTIONOWNER
+        - CHANGE_SUBSCRIPTIONOWNER_EUICC
+        - CHANGE_SUBSCRIPTIONPACKAGE
+        - CHANGE_SUBSCRIPTIONREGION
+        - CHANGE_SUBSCRIPTIONSTATE
+        - CHANGE_SUBSCRIPTIONSTATE_EUICC
+        - CREATE_SUBSCRIPTION
+        - CREATE_SUBSCRIPTION_EUICC
+        - INDIVIDUAL_APN_UPDATE
+        - LOCK_SUBSCRIPTIONSTATE
+        - PBR_EXIT
+        - PCL_LIMIT_100_EXCEEDED
+        - REASSIGN_MSISDN
+        - THROTTLE_IMSI
+        - TIME_BASED_CSP
+        - TIME_BASED_CSS
+        - TRIGGER_ACTION
+        - UNLOCK_SUBSCRIPTIONSTATE
+        - UPDATE_IMEI
+        - UPDATE_PROVISIONED_IMEI
+
+    ChangeHistoryRequest:
+      type: "object"
+      required:
+        - identifier-type
+        - since
+      properties:
+        identifier_type:
+          $ref: "#/components/schemas/IdType"
+        identifiers:
+          description: >
+            List of identifiers to query.  Either this or identifier range is
+            required.  Max number of items allowed depends on identifier-type.
+            Group identifiers, like subscription-package only one is allowed.
+            For subscription identifiers max 1000 is allowed.
+          type: "array"
+          items:
+            type: "string"
+          example: ["subscriptionPackageId"]
+        identifier_ranges:
+          description: >
+            Subscription identifier range.  Only one range is allowed per
+            request.
+          type: "array"
+          items:
+            $ref: "#/components/schemas/IdentifierRangeType"
+        since:
+          description: >
+            Start date for query period, inclusive.  Earliest 3 months before
+            current date.
+          type: "string"
+          format: date-time
+          example: "2021-02-01T00:00:00Z"
+        until:
+          description: >
+            End date for query period, exclusive.  Default 24h after the since
+            property. Must be after since value.
+          type: "string"
+          format: date-time
+          example: "2021-02-02T00:00:00Z"
+        changes:
+          description: >
+            Change operations to include, comma separated values.  Default
+            CHANGE_SUBSCRIPTIONSTATE, all=everything
+          type: "array"
+          items:
+            $ref: "#/components/schemas/SubscriptionOperation"
+        limit:
+          description: >
+            Limit max returned items per get request, default 10000.
+            Max 100000.
+          type: "integer"
+          example: 10000
+
+    ChangeHistoryResponse:
+      type: "object"
+      properties:
+        changes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/SubscriptionChange"
+        next:
+          type: "string"
+          example: "https://m2m.dcp.ericsson.net/subscriptions\
+            /changes/requests/ABC123321?page=RW5jb2RlZCBrZXkg"
+
+    SubscriptionChange:
+      type: "object"
+      properties:
+        occured_at:
+          description: Date for the change
+          type: "string"
+          format: date-time
+          example: "2021-02-02T12:45:56.789Z"
+        imsi:
+          description: Imsi for subscription
+          type: "string"
+        change:
+          $ref: "#/components/schemas/SubscriptionOperation"
+        by:
+          type: "string"
+          description: Change initiated by id
+          example: accountid@example.org
+        job:
+          type: "string"
+          description: Job identifier for the change
+          example: REQ123
+        new_values:
+          $ref: "#/components/schemas/Values"
+
+    Values:
+      type: "object"
+      description: "New value for a change.  Only relevant field returned."
+      properties:
+        state:
+          type: string
+          example: active
+          x-extensible-enum:
+            - NEW
+            - ACTIVE
+            - PAUSE
+            - DEACTIVATED
+            - TERMINATED
+            - REMOVED
+            - OPERATOR-BLOCKED
+            - TERMINATED-PENDING
+            - ACTIVE-NO-BILLING
+            - DEACTIVATED-NO-BILLING
+        subscription_package:
+          type: string
+          example: sp-1
+        label:
+          type: string
+          example: label-2
+        network_imei:
+          type: string
+          example: 00000123456789
+        assigned_imei:
+          type: string
+          example: 00000123456789
+
+    Problem:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          description: |
+            An absolute URI that identifies the problem type. When
+            dereferenced,it SHOULD provide human-readable documentation
+            for the problem type (e.g., using HTML).
+        title:
+          type: string
+          description: |
+            A short summary of the problem type in english and readable for
+            engineers.
+          example: 'Service Unavailable'
+        status:
+          type: integer
+          format: int32
+          description: |
+            The HTTP status code generated by the origin server for this
+            occurrence of the problem.
+          minimum: 100
+          maximum: 600
+          exclusiveMaximum: true
+          example: 503
+        detail:
+          type: string
+          description: |
+            A human readable explanation specific to this occurrence of the
+            problem.
+          example: 'Connection to database timed out.'
+        instance:
+          type: string
+          format: uri
+          description: |
+            An absolute URI that identifies the specific occurrence of the
+            problem. It may or may not yield further information if
+            dereferenced.
+          example: 'https://api.documentation.url/request-id'

@@ -1,0 +1,22 @@
+CSO request
+curl --location --request POST 'http://sica-prod-cttai-sica.tai1.ct.dcp.ericsson.net/sica/subscriptions/requests/owner-changes' \
+--header 'Authorization: Bearer ' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "change": {
+    "owner": {
+      "company_id": "78000046",
+      "subscription_package_id": "ericsson20190325_SP_31"
+    }
+  },
+  "on_behalf_of": {    
+    "organization_id": "1.66"
+  },
+  "subscriptions": {
+    "identifier_type": "IMSI",
+    "identifiers": [
+      "244990000014300"
+    ]
+  }
+}' \
+--socks5-hostname 127.0.0.1:12032
