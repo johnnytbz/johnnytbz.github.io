@@ -1,0 +1,6 @@
+ProductID,ProductName,Date,Quantity,Price,TotalSales
+1,Apple,2024-08-01,10,1.5,15.0
+1,Apple,2024-08-02,5,1.5,7.5
+2,Banana,2024-08-01,7,0.8,5.6000000000000005
+2,Banana,2024-08-02,3,0.8,2.4000000000000004
+3,Orange,2024-08-01,20,1.0,20.0

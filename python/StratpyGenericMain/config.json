@@ -1,0 +1,47 @@
+{
+    "input_files": [
+        {
+            "name": "table1",
+            "filepath": "data1.txt",
+            "loader": "TxtLoader",
+            "separator": "|"
+        },
+        {
+            "name": "table2",
+            "filepath": "data2.csv",
+            "loader": "CSVLoader"
+        }
+    ],
+    "operations": [
+        {
+            "type": "join",
+            "params": {
+                "left_table": "table1",
+                "right_table": "table2",
+                "on": ["ProductID"],
+                "how": "inner",
+                "output_table": "joined_data"
+            }
+        },
+        {
+            "type": "add_column",
+            "params": {
+                "table": "joined_data",
+                "new_column_name": "TotalSales",
+                "calculation": "table['Quantity'] * table['Price']",
+                "output_table": "joined_data"
+            }
+        },
+        {
+            "type": "group_by",
+            "params": {
+                "table": "joined_data",
+                "columns": ["ProductName"],
+                "output_table": "result"
+            }
+        }
+    ],
+    "output_format": "excel",
+    "custom_file_name": "custom_report"
+
+}
