@@ -11,17 +11,17 @@ comments: true
 
 ## REST definition
 
-  REST，即Representational State Transfer的缩写。直接翻译的意思是"表现层状态转化"。
+  REST is the abbreviation of Representational State Transfer. The direct translation means "representational state transfer".
 
-  它是一种互联网应用程序的API设计理念：URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作。
+  It is an API design concept for Internet applications: URL locates resources and HTTP verbs (GET, POST, DELETE, DETC) are used to describe operations.
 
-  如果一个架构符合REST原则，就称它为RESTful架构。
+  If an architecture conforms to the REST principle, it is called a RESTful architecture.
 
-  什么是representational?
+  What is representational?
   ~~~	
-    XML, JSON, TEXT来呈现表示response的数据
+    XML, JSON, TEXT to present the data representing the response
   ~~~	
-  什么是state transfer?
+  What is state transfer?
   ~~~	
     response data from the server, sent the state / data to the client
   ~~~	
@@ -32,58 +32,59 @@ comments: true
   Representation Metadata
     header / content-type
 
-## HTTP动词
+## HTTP Verbs
 
 ~~~	
-GET（SELECT）：从服务器取出资源（一项或多项）。
-POST（CREATE）：在服务器新建一个资源。
-PUT（UPDATE）：在服务器更新资源（客户端提供改变后的完整资源）。
-PATCH（UPDATE）：在服务器更新资源（客户端提供改变的属性）。
-DELETE（DELETE）：从服务器删除资源。
+GET (SELECT): retrieves a resource (one or more) from the server.
+POST (CREATE): creates a new resource on the server.
+PUT (UPDATE): updates a resource on the server (the client provides the complete resource after the change).
+PATCH (UPDATE): updates a resource on the server (the client provides the changed properties).
+DELETE (DELETE): deletes a resource from the server.
 ~~~	  
 
-### 一些例子
+### examples
 
 ~~~	
-GET /zoos：列出所有动物园
-POST /zoos：新建一个动物园
-GET /zoos/ID：获取某个指定动物园的信息
-PUT /zoos/ID：更新某个指定动物园的信息（提供该动物园的全部信息）
-PATCH /zoos/ID：更新某个指定动物园的信息（提供该动物园的部分信息）
-DELETE /zoos/ID：删除某个动物园
-GET /zoos/ID/animals：列出某个指定动物园的所有动物
-DELETE /zoos/ID/animals/ID：删除某个指定动物园的指定动物
+GET /zoos: List all zoos
+POST /zoos: Create a new zoo
+GET /zoos/ID: Get information about a specific zoo
+PUT /zoos/ID: Update information about a specific zoo (provide all information about the zoo)
+PATCH /zoos/ID: Update information about a specific zoo (provide partial information about the zoo)
+DELETE /zoos/ID: Delete a specific zoo
+GET /zoos/ID/animals: List all animals in a specific zoo
+DELETE /zoos/ID/animals/ID: Delete a specific animal in a specific zoo
 ~~~	  
 
-### 过滤信息（Filtering）
+### Filtering
 
-  如果记录数量很多，服务器不可能都将它们返回给用户。API应该提供参数，过滤返回结果。
-  下面是一些常见的参数。
+  If there are a lot of records, the server cannot return all of them to the user. 
+  The API should provide parameters to filter the returned results.
+  Below are some common parameters.
 ~~~	
-?limit=10：指定返回记录的数量
-?offset=10：指定返回记录的开始位置。
-?page=2&per_page=100：指定第几页，以及每页的记录数。
-?sortby=name&order=asc：指定返回结果按照哪个属性排序，以及排序顺序。
-?animal_type_id=1：指定筛选条件
+?limit=10: specifies the number of records to be returned
+?offset=10: specifies the starting position of the returned records.
+?page=2&per_page=100: specifies the page number and the number of records per page.
+?sortby=name&order=asc: specifies the attribute by which the returned results are sorted and the sorting order.
+?animal_type_id=1: specifies the filter condition
 ~~~	  
 
-## 状态码（Status Codes）
+## Status Codes
 
-  服务器向用户返回的状态码和提示信息，常见的有以下一些（方括号中是该状态码对应的HTTP动词）。
+  The status codes and prompt information returned by the server to the user are commonly seen as follows (the HTTP verbs corresponding to the status codes are in square brackets).
 
 ~~~	
-200 OK - [GET]：服务器成功返回用户请求的数据，该操作是幂等的（Idempotent）。
-201 CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。
-202 Accepted - [*]：表示一个请求已经进入后台排队（异步任务）
-204 NO CONTENT - [DELETE]：用户删除数据成功。
-400 INVALID REQUEST - [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作，该操作是幂等的。
-401 Unauthorized - [*]：表示用户没有权限（令牌、用户名、密码错误）。
-403 Forbidden - [*] 表示用户得到授权（与401错误相对），但是访问是被禁止的。
-404 NOT FOUND - [*]：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。
-406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。
-410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。
-422 Unprocesable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。
-500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。
+200 OK - [GET]: The server successfully returns the data requested by the user. This operation is idempotent.
+201 CREATED - [POST/PUT/PATCH]: The user successfully creates or modifies data.
+202 Accepted - [*]: Indicates that a request has entered the background queue (asynchronous task)
+204 NO CONTENT - [DELETE]: The user successfully deletes data.
+400 INVALID REQUEST - [POST/PUT/PATCH]: The request sent by the user is wrong. The server does not create or modify data. This operation is idempotent.
+401 Unauthorized - [*]: Indicates that the user does not have permission (token, username, password error).
+403 Forbidden - [*] Indicates that the user is authorized (as opposed to 401 error), but access is prohibited.
+404 NOT FOUND - [*]: The request sent by the user is for a non-existent record. The server did not perform the operation. This operation is idempotent.
+406 Not Acceptable - [GET]: The format requested by the user is not available (for example, the user requested JSON format, but only XML format is available).
+410 Gone - [GET]: The resource requested by the user is permanently deleted and will not be obtained again.
+422 Unprocesable entity - [POST/PUT/PATCH] A validation error occurred when creating an object.
+500 INTERNAL SERVER ERROR - [*]: An error occurred on the server and the user will not be able to determine whether the request was successful.
 ~~~	
 
 ## demo
