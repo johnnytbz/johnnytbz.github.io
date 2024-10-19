@@ -1,0 +1,64 @@
+import pandas as pd
+
+def load_excel_config(excel_file):
+    # 读取所有配置表
+    logic_config = pd.read_excel(excel_file, sheet_name='Logic')
+    input_files = pd.read_excel(excel_file, sheet_name='Input Files')
+    return logic_config, input_files
+
+def generate_sql_from_config(logic_config, input_files):
+    sql_parts = []
+    base_table = None
+    select_columns = []
+    where_conditions = []
+    joins = []
+    group_by_columns = []
+    aggregations = []
+    order_by_clause = ''
+    limit_clause = ''
+
+    # 读取输入文件定义，转换为表名与文件路径的映射
+    data_source_mapping = {row['Data Source']: row['File Path'] for _, row in input_files.iterrows()}
+
+    # 解析逻辑配置
+    for _, row in logic_config.iterrows():
+        operation = row['Operation Type']
+        data_source = row['Data Source']
+        column = row['Column']
+        condition = row['Condition']
+        value = row['Value']
+        aggregation_func = row['Aggregation Function']
+        order = row['Order']
+        limit = row['Limit Rows']
+
+        if operation == 'SELECT':
+            base_table = data_source
+            select_columns.append(column if column != '*' else '*')
+        elif operation == 'FILTER':
+            where_conditions.append(f"{column} {condition} '{value}'")
+        elif operation == 'JOIN':
+            joins.append(f"INNER JOIN {data_source} ON {column} = {value}")
+        elif operation == 'GROUP BY':
+            group_by_columns.append(column)
+        elif operation == 'AGGREGATE':
+            aggregations.append(f"{aggregation_func}({column}) AS {column}_{aggregation_func}")
+        elif operation == 'ORDER BY':
+            order_by_clause = f"ORDER BY {column} {order}"
+        elif operation == 'LIMIT':
+            limit_clause = f"LIMIT {limit}"
+
+    # 生成SQL语句
+    select_clause = f"SELECT {', '.join(aggregations) if aggregations else ', '.join(select_columns)}"
+    from_clause = f"FROM {base_table} -- Source file: {data_source_mapping[base_table]}"
+    join_clause = ' '.join(joins)
+    where_clause = f"WHERE {' AND '.join(where_conditions)}" if where_conditions else ''
+    group_by_clause = f"GROUP BY {', '.join(group_by_columns)}" if group_by_columns else ''
+    final_sql = f"{select_clause} {from_clause} {join_clause} {where_clause} {group_by_clause} {order_by_clause} {limit_clause};"
+
+    return final_sql
+
+# 示例调用
+excel_file = 'config.xlsx'
+logic_config, input_files = load_excel_config(excel_file)
+sql_query = generate_sql_from_config(logic_config, input_files)
+print(sql_query)
