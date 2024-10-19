@@ -1,21 +1,22 @@
 import pandas as pd
 
 def load_excel_config(excel_file):
-    # 读取所有配置表
+    """加载Excel文件中的配置表"""
     logic_config = pd.read_excel(excel_file, sheet_name='Logic')
     input_files = pd.read_excel(excel_file, sheet_name='Input Files')
     return logic_config, input_files
 
 def generate_sql_from_config(logic_config, input_files):
-    sql_parts = []
+    """从配置表中生成SQL查询语句"""
     base_table = None
     select_columns = []
-    where_conditions = []
+    where_conditions = {}
     joins = []
     group_by_columns = []
     aggregations = []
     order_by_clause = ''
     limit_clause = ''
+    extra_expressions = []
 
     # 读取输入文件定义，转换为表名与文件路径的映射
     data_source_mapping = {row['Data Source']: row['File Path'] for _, row in input_files.iterrows()}
@@ -27,31 +28,52 @@ def generate_sql_from_config(logic_config, input_files):
         column = row['Column']
         condition = row['Condition']
         value = row['Value']
+        operator = row['Operator']
+        group_id = row['Group ID']
         aggregation_func = row['Aggregation Function']
         order = row['Order']
-        limit = row['Limit Rows']
+        limit_rows = row['Limit Rows']
+        extra_expression = row['Extra Expression']
 
+        # 解析每种操作类型
         if operation == 'SELECT':
             base_table = data_source
             select_columns.append(column if column != '*' else '*')
         elif operation == 'FILTER':
-            where_conditions.append(f"{column} {condition} '{value}'")
+            condition_sql = f"{column} {condition} '{value}'"
+            if group_id not in where_conditions:
+                where_conditions[group_id] = []
+            where_conditions[group_id].append((condition_sql, operator))
         elif operation == 'JOIN':
             joins.append(f"INNER JOIN {data_source} ON {column} = {value}")
         elif operation == 'GROUP BY':
             group_by_columns.append(column)
-        elif operation == 'AGGREGATE':
+        elif operation == 'AGGREGATE' and aggregation_func:
             aggregations.append(f"{aggregation_func}({column}) AS {column}_{aggregation_func}")
-        elif operation == 'ORDER BY':
+        elif operation == 'ORDER BY' and order:
             order_by_clause = f"ORDER BY {column} {order}"
-        elif operation == 'LIMIT':
-            limit_clause = f"LIMIT {limit}"
+        elif operation == 'LIMIT' and limit_rows:
+            limit_clause = f"LIMIT {limit_rows}"
+        elif operation == 'SUBSTRING' and extra_expression:
+            extra_expressions.append(extra_expression)
+        elif operation == 'CASE WHEN' and extra_expression:
+            extra_expressions.append(extra_expression)
+
+    # 生成WHERE子句，处理AND/OR和分组逻辑
+    where_clause = ''
+    if where_conditions:
+        grouped_conditions = []
+        for group_id, conditions in where_conditions.items():
+            group_clause = ' '.join([f"{cond} {op}" for cond, op in conditions]).rstrip(f' {op}')  # 去掉最后的操作符
+            grouped_conditions.append(f"({group_clause})")
+        where_clause = f"WHERE {' AND '.join(grouped_conditions)}"
 
     # 生成SQL语句
     select_clause = f"SELECT {', '.join(aggregations) if aggregations else ', '.join(select_columns)}"
+    if extra_expressions:
+        select_clause += ', ' + ', '.join(extra_expressions)
     from_clause = f"FROM {base_table} -- Source file: {data_source_mapping[base_table]}"
     join_clause = ' '.join(joins)
-    where_clause = f"WHERE {' AND '.join(where_conditions)}" if where_conditions else ''
     group_by_clause = f"GROUP BY {', '.join(group_by_columns)}" if group_by_columns else ''
     final_sql = f"{select_clause} {from_clause} {join_clause} {where_clause} {group_by_clause} {order_by_clause} {limit_clause};"
 
