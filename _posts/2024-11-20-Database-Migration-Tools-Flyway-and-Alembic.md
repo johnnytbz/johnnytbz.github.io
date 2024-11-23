@@ -1,6 +1,6 @@
 ﻿---
 layout: post
-title: Database Migration Tools: Flyway and Alembic
+title: Database Migration Tools - Flyway and Alembic
 subtitle: Database Migration Tools
 tags: [technology]
 comments: false
