@@ -1,0 +1,146 @@
+import pandas as pd
+
+def load_excel_config(excel_file):
+    """加载Excel文件中的配置表"""
+    logic_config = pd.read_excel(excel_file, sheet_name='Logic')
+    input_files = pd.read_excel(excel_file, sheet_name='Input Files')
+    return logic_config, input_files
+
+def generate_sql_from_config(logic_config, input_files):
+    """从配置表中生成SQL查询语句"""
+    base_table = None
+    select_columns = []
+    where_conditions = {}
+    joins = []
+    group_by_columns = []
+    aggregations = []
+    order_by_clause = ''
+    limit_clause = ''
+    extra_expressions = []
+
+    # 读取输入文件定义，转换为表名与文件路径的映射
+    data_source_mapping = {row['Data Source']: row['File Path'] for _, row in input_files.iterrows()}
+
+    # 解析逻辑配置
+    for _, row in logic_config.iterrows():
+        operation = row['Operation Type']
+        data_source = row['Data Source']
+        column = row['Column']
+        condition = row['Condition']
+        value = row['Value']
+        operator = row['Operator']
+        group_id = row['Group ID']
+        aggregation_func = row['Aggregation Function']
+        order = row['Order']
+        limit_rows = row['Limit Rows']
+        extra_expression = row['Extra Expression']
+
+        # 解析每种操作类型
+        if operation == 'SELECT':
+            base_table = data_source
+            select_columns.append(column if column != '*' else '*')
+        elif operation == 'FILTER':
+            condition_sql = f"{column} {condition} '{value}'"
+            if group_id not in where_conditions:
+                where_conditions[group_id] = []
+            where_conditions[group_id].append((condition_sql, operator))
+        elif operation == 'JOIN':
+            joins.append(f"INNER JOIN {data_source} ON {column} = {value}")
+        elif operation == 'GROUP BY':
+            group_by_columns.append(column)
+        elif operation == 'AGGREGATE' and aggregation_func:
+            aggregations.append(f"{aggregation_func}({column}) AS {column}_{aggregation_func}")
+        elif operation == 'ORDER BY' and order:
+            order_by_clause = f"ORDER BY {column} {order}"
+        elif operation == 'LIMIT' and limit_rows:
+            limit_clause = f"LIMIT {limit_rows}"
+        elif operation == 'SUBSTRING' and extra_expression:
+            extra_expressions.append(extra_expression)
+        elif operation == 'CASE WHEN' and extra_expression:
+            extra_expressions.append(extra_expression)
+
+    # 生成WHERE子句，处理AND/OR和分组逻辑
+    where_clause = ''
+    if where_conditions:
+        grouped_conditions = []
+        for group_id, conditions in where_conditions.items():
+            group_clause = ' '.join([f"{cond} {op}" for cond, op in conditions]).rstrip(f' {op}')  # 去掉最后的操作符
+            grouped_conditions.append(f"({group_clause})")
+        where_clause = f"WHERE {' AND '.join(grouped_conditions)}"
+
+    # 生成SQL语句
+    select_clause = f"SELECT {', '.join(aggregations) if aggregations else ', '.join(select_columns)}"
+    if extra_expressions:
+        select_clause += ', ' + ', '.join(extra_expressions)
+    from_clause = f"FROM {base_table} -- Source file: {data_source_mapping[base_table]}"
+    join_clause = ' '.join(joins)
+    group_by_clause = f"GROUP BY {', '.join(group_by_columns)}" if group_by_columns else ''
+    final_sql = f"{select_clause} {from_clause} {join_clause} {where_clause} {group_by_clause} {order_by_clause} {limit_clause};"
+
+    return final_sql
+
+# 示例调用
+excel_file = 'config.xlsx'
+logic_config, input_files = load_excel_config(excel_file)
+sql_query = generate_sql_from_config(logic_config, input_files)
+print(sql_query)
+
+
+
+
+
+
+method 2
+
+import pandas as pd
+
+def load_excel_config(excel_file, config_sheet='Config', logic_sheet='Logic'):
+    """加载Excel文件中的配置和逻辑表"""
+    config_df = pd.read_excel(excel_file, sheet_name=config_sheet)
+    logic_df = pd.read_excel(excel_file, sheet_name=logic_sheet)
+    return config_df, logic_df
+
+def should_use_shared_process(config_df):
+    """判断是否使用共享的process"""
+    return config_df.loc[config_df['Key'] == 'Use Shared Process', 'Value'].values[0] == 'Yes'
+
+def generate_shared_process_sql(shared_logic):
+    """生成共享逻辑的SQL"""
+    select_clause = 'SELECT *'  # 假设共享逻辑是选择所有字段
+    from_clause = f"FROM {shared_logic['Data Source'][0]}"
+    join_clause = shared_logic.loc[shared_logic['Operation Type'] == 'JOIN', 'Extra Expression'].iloc[0]
+    filter_conditions = shared_logic.loc[shared_logic['Operation Type'] == 'FILTER']
+    where_clause = ' AND '.join([f"{row['Column']} {row['Condition']} '{row['Value']}'" for _, row in filter_conditions.iterrows()])
+    
+    final_sql = f"{select_clause} {from_clause} {join_clause} WHERE {where_clause};"
+    return final_sql
+
+def generate_process_sql(process_logic, shared_table):
+    """生成基于共享数据源的SQL"""
+    select_clause = 'SELECT *'  # 假设过程逻辑也选择所有字段
+    from_clause = f"FROM {shared_table}"
+    filter_conditions = process_logic.loc[process_logic['Operation Type'] == 'FILTER']
+    where_clause = ' AND '.join([f"{row['Column']} {row['Condition']} '{row['Value']}'" for _, row in filter_conditions.iterrows()])
+    
+    final_sql = f"{select_clause} {from_clause} WHERE {where_clause};"
+    return final_sql
+
+# 读取配置与逻辑
+config_df, process_logic = load_excel_config('process_1.xlsx')
+
+# 判断是否使用共享过程
+if should_use_shared_process(config_df):
+    # 生成共享过程的SQL
+    shared_logic = load_excel_config('shared_process.xlsx')[1]  # 加载共享逻辑
+    shared_sql = generate_shared_process_sql(shared_logic)  # 生成共享过程SQL
+    shared_table = 'preprocessed_sales_data'  # 假设共享数据的表名
+else:
+    shared_table = process_logic['Data Source'].iloc[0]
+
+# 生成process的SQL
+process_sql = generate_process_sql(process_logic, shared_table)
+
+print("Shared Process SQL:", shared_sql if should_use_shared_process(config_df) else '不使用共享过程')
+print("Process SQL:", process_sql)
+
+JTBZ
