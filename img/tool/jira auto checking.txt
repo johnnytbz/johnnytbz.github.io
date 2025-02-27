@@ -1,0 +1,166 @@
+PowerShell 脚本（写日志 + 弹出提示框）
+
+# 配置信息
+$jiraBaseUrl = "https://your-jira-domain.com/rest/api/2/issue/"
+$username = "your-username"
+$apiToken = "your-api-token"
+$ticketNumber = Read-Host "Enter Jira Ticket Number (e.g., PROJ-123)"
+
+# 日志文件路径
+$logFilePath = "$env:USERPROFILE\Documents\JiraTicketCheckLog.txt"
+
+# 构建 API 请求
+$uri = "$jiraBaseUrl$ticketNumber"
+$base64Auth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$username:$apiToken"))
+$headers = @{
+    Authorization = "Basic $base64Auth"
+    Accept = "application/json"
+}
+
+# 发送请求
+try {
+    $response = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers -ErrorAction Stop
+
+    # 提取字段
+    $peerReview = $response.fields.customfield_12345  # 替换为实际的 Peer Review 字段 ID
+    $uatSignOff = $response.fields.customfield_67890  # 替换为实际的 UAT Sign Off 字段 ID
+    $actualTimeSpent = $response.fields.timespent    # Jira 默认的 Actual Time Spent 字段
+    $crNumber = $response.fields.customfield_54321   # 替换为实际的 CR Number 字段 ID
+
+    # 检查字段是否填写
+    $missingFields = @()
+
+    if ([string]::IsNullOrEmpty($peerReview)) {
+        $missingFields += "Peer Review"
+    }
+
+    if ([string]::IsNullOrEmpty($uatSignOff)) {
+        $missingFields += "UAT Sign Off"
+    }
+
+    if ([string]::IsNullOrEmpty($actualTimeSpent)) {
+        $missingFields += "Actual Time Spent"
+    }
+
+    if ([string]::IsNullOrEmpty($crNumber)) {
+        $missingFields += "CR Number"
+    }
+
+    # 输出结果
+    if ($missingFields.Count -gt 0) {
+        $message = "The following fields are missing in Jira Ticket $ticketNumber:`n"
+        $message += $missingFields -join "`n"
+        Write-Host $message -ForegroundColor Red
+
+        # 写日志
+        $logMessage = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Missing fields in $ticketNumber: $($missingFields -join ', ')"
+        Add-Content -Path $logFilePath -Value $logMessage
+
+        # 弹出右下角提示框
+        [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
+        $notify = New-Object System.Windows.Forms.NotifyIcon
+        $notify.Icon = [System.Drawing.SystemIcons]::Information
+        $notify.Visible = $true
+        $notify.ShowBalloonTip(5000, "Jira Ticket Check", $message, [System.Windows.Forms.ToolTipIcon]::Warning)
+        Start-Sleep -Seconds 5
+        $notify.Dispose()
+    } else {
+        Write-Host "All required fields are filled." -ForegroundColor Green
+    }
+
+    # 输出字段内容（可选）
+    Write-Host "Peer Review: $peerReview"
+    Write-Host "UAT Sign Off: $uatSignOff"
+    Write-Host "Actual Time Spent: $actualTimeSpent"
+    Write-Host "CR Number: $crNumber"
+} catch {
+    $errorMessage = "Failed to retrieve ticket information for $ticketNumber. Error: $_"
+    Write-Host $errorMessage -ForegroundColor Red
+
+    # 写日志
+    $logMessage = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Error for $ticketNumber: $_"
+    Add-Content -Path $logFilePath -Value $logMessage
+
+    # 弹出右下角提示框
+    [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
+    $notify = New-Object System.Windows.Forms.NotifyIcon
+    $notify.Icon = [System.Drawing.SystemIcons]::Error
+    $notify.Visible = $true
+    $notify.ShowBalloonTip(5000, "Jira Ticket Check Error", $errorMessage, [System.Windows.Forms.ToolTipIcon]::Error)
+    Start-Sleep -Seconds 5
+    $notify.Dispose()
+}
+
+
+脚本说明
+写日志：
+
+使用 Add-Content 将错误或缺失字段信息写入日志文件（JiraTicketCheckLog.txt）。
+
+日志文件路径为 $env:USERPROFILE\Documents\JiraTicketCheckLog.txt，你可以根据需要修改。
+
+弹出右下角提示框：
+
+使用 System.Windows.Forms.NotifyIcon 创建右下角提示框。
+
+提示框显示 5 秒钟后自动消失。
+
+错误处理：
+
+如果 API 请求失败（例如网络问题或认证失败），脚本会捕获错误并记录日志，同时弹出错误提示框。
+
+设置 Windows 定时任务
+保存脚本：
+
+将脚本保存为 .ps1 文件，例如 CheckJiraTicket.ps1。
+
+打开任务计划程序：
+
+按 Win + R，输入 taskschd.msc，打开任务计划程序。
+
+创建基本任务：
+
+点击右侧的 “创建基本任务”。
+
+输入任务名称，例如 Jira Ticket Check。
+
+设置触发器：
+
+选择触发器类型，例如 “每天” 或 “每小时”，然后设置具体时间。
+
+设置操作：
+
+选择操作类型为 “启动程序”。
+
+在 “程序或脚本” 中输入 powershell.exe。
+
+在 “添加参数” 中输入脚本的完整路径，例如：
+
+复制
+-File "C:\Path\To\CheckJiraTicket.ps1"
+完成设置：
+
+点击 “完成”，保存任务。
+
+示例输出
+日志文件内容：
+复制
+2023-10-01 12:34:56 - Missing fields in PROJ-123: Peer Review, UAT Sign Off
+2023-10-01 12:35:10 - Error for PROJ-456: 404 Not Found
+右下角提示框：
+如果字段缺失，弹出黄色警告提示框，显示缺失字段。
+
+如果发生错误，弹出红色错误提示框，显示错误信息。
+
+注意事项
+字段 ID：
+
+确保替换脚本中的字段 ID 为你的 Jira 项目中的实际字段 ID。
+
+权限：
+
+确保 PowerShell 脚本和定时任务有足够的权限运行。
+
+测试：
+
+在正式使用前，建议先手动运行脚本，确保功能正常。
