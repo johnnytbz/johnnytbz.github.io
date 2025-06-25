@@ -18,7 +18,7 @@ Development by go language.
 for single server have strong performance: support thousands of targets, a million time series per second.
 
 the official architecture diagram:
-![Crepe](https://prometheus.io/assets/architecture.png)
+![Crepe](https://prometheus.io/assets/docs/architecture.svg)
 
 TSDB using time series database store data.
 
